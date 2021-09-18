@@ -1,3 +1,8 @@
+ """
+  author : Vishal
+  
+  """
+
 import numpy as np
 
 class Perceptron:
