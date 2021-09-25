@@ -1,15 +1,22 @@
- """
+"""
   author : Vishal
-  
-  """
+
+"""
 
 from utils.model import Perceptron
 from utils.all_utils import prepare_data, save_model, save_plot
 import pandas as pd
+import logging
+import os
+
+logging_str = "[%(asctime)s: %(levelname)s: %(module)s] %(message)s"
+logs_dir = 'logs'
+logging.basicConfig(filename=os.path.join(logs_dir,'running_logs_AND.log'),level=logging.INFO,format=logging_str,filemode='a')
+
 
 def main(data, eta, epochs, modelName, plotName):
     df = pd.DataFrame(data)
-    print(df)
+    logging.info(f"This is actual DataFrame \n{df}")
     x,y = prepare_data(df)
 
     model = Perceptron(eta=eta, epochs=epochs)
@@ -31,6 +38,13 @@ if __name__ == '__main__':
 
     ETA = 0.3
     EPOCHS = 10
-    
-    main(data=AND, eta=ETA, epochs=EPOCHS, modelName='AND.model', plotName='AND.png')
+
+    try:
+      logging.info(">>>>>>>>>> Starting Training of the model >>>>>>>>>>")
+      main(data=AND, eta=ETA, epochs=EPOCHS, modelName='AND.model', plotName='AND.png')
+      logging.info("<<<<<<<<<< Training done successfully <<<<<<<<<<")
+    except Exception as e:
+      logging.exception(e)
+      raise e 
+
 
